@@ -17,6 +17,9 @@ class BlockChain:
     def mine_block(self, data: str) -> dict:
         pass
 
+    def get_previous_block(self) -> dict:
+        return self.chain[-1]
+
     def _create_block(self, data: str, proof: int, prev_hash: str, index: int) -> dict:
         block = {
             "index": index,
