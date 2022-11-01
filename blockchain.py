@@ -45,8 +45,6 @@ class BlockChain:
         new_proof = 1
         check_proof = False
         while not check_proof:
-            # TODO: delete print
-            print("\nnew_proof = ", new_proof)
             to_digest = self._to_digest(
                 new_proof=new_proof,
                 prev_proof=prev_proof,
