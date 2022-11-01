@@ -15,11 +15,18 @@ class BlockChain:
         self.chain.append(genesis_block)
 
     def mine_block(self, data: str) -> dict:
-        previous_block = self.get_previous_block()
-        previous_proof = previous_block.get("proof")
+        prev_block = self.get_previous_block()
+        prev_proof = prev_block.get("proof")
         index = len(self.chain) + 1
         proof = None
         return {}
+
+    def _proof_of_work(self, data: str, index: int, prev_proof: int) -> int:
+        new_proof = 1
+        check_proof = False
+        while not check_proof:
+            to_digest = False
+        return new_proof
 
     def get_previous_block(self) -> dict:
         return self.chain[-1]
