@@ -14,6 +14,9 @@ class BlockChain:
         )
         self.chain.append(genesis_block)
 
+    def mine_block(self, data: str) -> dict:
+        pass
+
     def _create_block(self, data: str, proof: int, prev_hash: str, index: int) -> dict:
         block = {
             "index": index,
