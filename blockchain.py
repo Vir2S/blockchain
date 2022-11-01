@@ -98,7 +98,7 @@ class BlockChain:
                 )
             ).hexdigest()
 
-            if hash_value != "0000":
+            if hash_value[:4] != "0000":
                 return False
 
             current_block = next_block
