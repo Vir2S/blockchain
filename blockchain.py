@@ -18,8 +18,24 @@ class BlockChain:
         prev_block = self.get_previous_block()
         prev_proof = prev_block.get("proof")
         index = len(self.chain) + 1
-        proof = None
-        return {}
+        proof = self._proof_of_work(
+            data=data,
+            index=index,
+            prev_proof=prev_proof
+        )
+        prev_hash = self._hash(block=prev_block)
+        block = self._create_block(
+            data=data,
+            index=index,
+            proof=proof,
+            prev_hash=prev_hash
+        )
+        self.chain.append(block)
+        return block
+
+    def _hash(self, block: dict) -> str:
+        encoded_block = json.dumps(block, sort_keys=True).encode()
+        return hashlib.sha256(encoded_block).hexdigest()
 
     def _to_digest(self, data: str, new_proof: int, prev_proof: int, index: int) -> bytes:
         to_digest = str(new_proof ** 2 - prev_proof ** 2 + index) + data
@@ -28,9 +44,9 @@ class BlockChain:
     def _proof_of_work(self, data: str, index: int, prev_proof: int) -> int:
         new_proof = 1
         check_proof = False
-        # TODO: delete print
-        print("\nnew_proof = ", new_proof)
         while not check_proof:
+            # TODO: delete print
+            print("\nnew_proof = ", new_proof)
             to_digest = self._to_digest(
                 new_proof=new_proof,
                 prev_proof=prev_proof,
