@@ -72,3 +72,36 @@ class BlockChain:
             "prev_hash": prev_hash,
         }
         return block
+
+    def is_chain_valid(self) -> bool:
+        current_block = self.chain[0]
+        block_index = 1
+
+        while block_index < len(self.chain):
+            next_block = self.chain[block_index]
+
+            if next_block.get("prev_hash") != self._hash(current_block):
+                return False
+
+            current_proof = current_block.get("proof")
+            next_index, next_data, next_proof = (
+                next_block.get("index"),
+                next_block.get("data"),
+                next_block.get("proof")
+            )
+            hash_value = hashlib.sha256(
+                self._to_digest(
+                    data=next_data,
+                    new_proof=next_proof,
+                    prev_proof=current_proof,
+                    index=next_index
+                )
+            ).hexdigest()
+
+            if hash_value != "0000":
+                return False
+
+            current_block = next_block
+            block_index += 1
+
+        return True
